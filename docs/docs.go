@@ -26,7 +26,7 @@ const docTemplate = `{
     "paths": {
         "/api/products": {
             "get": {
-                "description": "Get all products",
+                "description": "Get a list of all products with filtering and pagination parameters.",
                 "consumes": [
                     "application/json"
                 ],
@@ -34,9 +34,41 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "products"
+                    "Products"
                 ],
-                "summary": "Get all products",
+                "summary": "Get a list of all products with filtering and pagination parameters",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Product category",
+                        "name": "category",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "Minimum product price",
+                        "name": "minPrice",
+                        "in": "query"
+                    },
+                    {
+                        "type": "number",
+                        "description": "Maximum product price",
+                        "name": "maxPrice",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page number",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Page size",
+                        "name": "pageSize",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",

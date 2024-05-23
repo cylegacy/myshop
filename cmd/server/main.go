@@ -34,6 +34,10 @@ import (
 func main() {
 	container := buildContainer()
 	err := container.Invoke(func(router *mux.Router) {
+
+		// Добавляем middleware для CORS
+		router.Use(middleware.Cors)
+
 		// Swagger route
 		router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 

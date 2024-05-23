@@ -13,8 +13,9 @@ func NewProductService(repo *repositories.ProductRepository) *ProductService {
 	return &ProductService{Repository: repo}
 }
 
-func (s *ProductService) GetAllProducts() ([]models.Product, error) {
-	return s.Repository.FindAll()
+// GetAllProducts возвращает список всех товаров с учетом параметров фильтрации и пагинации.
+func (s *ProductService) GetAllProducts(category string, minPrice, maxPrice float64, page, pageSize int) ([]models.Product, error) {
+	return s.Repository.FindAllWithFilters(category, minPrice, maxPrice, page, pageSize)
 }
 
 func (s *ProductService) GetProductByID(id uint) (models.Product, error) {

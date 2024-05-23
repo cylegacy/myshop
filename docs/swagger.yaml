@@ -29,7 +29,28 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get all products
+      description: Get a list of all products with filtering and pagination parameters.
+      parameters:
+      - description: Product category
+        in: query
+        name: category
+        type: string
+      - description: Minimum product price
+        in: query
+        name: minPrice
+        type: number
+      - description: Maximum product price
+        in: query
+        name: maxPrice
+        type: number
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Page size
+        in: query
+        name: pageSize
+        type: integer
       produces:
       - application/json
       responses:
@@ -39,9 +60,9 @@ paths:
             items:
               $ref: '#/definitions/models.Product'
             type: array
-      summary: Get all products
+      summary: Get a list of all products with filtering and pagination parameters
       tags:
-      - products
+      - Products
     post:
       consumes:
       - application/json

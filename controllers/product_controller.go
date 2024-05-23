@@ -18,20 +18,35 @@ func NewProductController(service *services.ProductService) *ProductController {
 	return &ProductController{Service: service}
 }
 
-// @Summary Get all products
-// @Description Get all products
-// @Tags products
-// @Accept  json
-// @Produce  json
+// @Summary Get a list of all products with filtering and pagination parameters
+// @Description Get a list of all products with filtering and pagination parameters.
+// @Tags Products
+// @Accept json
+// @Produce json
+// @Param category query string false "Product category"
+// @Param minPrice query number false "Minimum product price"
+// @Param maxPrice query number false "Maximum product price"
+// @Param page query int false "Page number"
+// @Param pageSize query int false "Page size"
 // @Success 200 {array} models.Product
 // @Router /api/products [get]
 func (c *ProductController) GetProducts(w http.ResponseWriter, r *http.Request) {
-	products, err := c.Service.GetAllProducts()
+	// Получаем параметры фильтрации из запроса
+	params := r.URL.Query()
+	category := params.Get("category")
+	minPrice, _ := strconv.ParseFloat(params.Get("minPrice"), 64)
+	maxPrice, _ := strconv.ParseFloat(params.Get("maxPrice"), 64)
+	page, _ := strconv.Atoi(params.Get("page"))
+	pageSize, _ := strconv.Atoi(params.Get("pageSize"))
+
+	// Передаем параметры в сервис для получения списка товаров
+	products, err := c.Service.GetAllProducts(category, minPrice, maxPrice, page, pageSize)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
+	// Отправляем список товаров в ответ
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(products)
 }
