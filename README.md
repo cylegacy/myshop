@@ -13,22 +13,22 @@ Before running this project, make sure you have the following installed:
 
 1. Clone the repository:
 
-git clone https://github.com/cylegacy/myshop.git
+```git clone https://github.com/cylegacy/myshop.git```
 
 2. Navigate to the project directory:
    
-cd myshop
+```cd myshop```
 
 3. Install dependencies:
    
-go mod tidy
+```go mod tidy```
 
 
 ## Usage
 
 To run the project, execute the following command:
 
-go run cmd/server/main.go
+```go run cmd/server/main.go```
 
 
 The server will start and listen for incoming requests on port 8080 by default.
