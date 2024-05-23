@@ -18,6 +18,13 @@ func NewProductController(service *services.ProductService) *ProductController {
 	return &ProductController{Service: service}
 }
 
+// @Summary Get all products
+// @Description Get all products
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} models.Product
+// @Router /api/products [get]
 func (c *ProductController) GetProducts(w http.ResponseWriter, r *http.Request) {
 	products, err := c.Service.GetAllProducts()
 	if err != nil {
@@ -29,6 +36,14 @@ func (c *ProductController) GetProducts(w http.ResponseWriter, r *http.Request) 
 	json.NewEncoder(w).Encode(products)
 }
 
+// @Summary Get a product by ID
+// @Description Get a product by ID
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Product ID"
+// @Success 200 {object} models.Product
+// @Router /api/products/{id} [get]
 func (c *ProductController) GetProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
@@ -47,6 +62,14 @@ func (c *ProductController) GetProduct(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(product)
 }
 
+// @Summary Create a new product
+// @Description Create a new product
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param product body models.Product true "Product to create"
+// @Success 201 {object} models.Product
+// @Router /api/products [post]
 func (c *ProductController) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product models.Product
 	err := json.NewDecoder(r.Body).Decode(&product)
@@ -65,6 +88,15 @@ func (c *ProductController) CreateProduct(w http.ResponseWriter, r *http.Request
 	json.NewEncoder(w).Encode(createdProduct)
 }
 
+// @Summary Update a product by ID
+// @Description Update a product by ID
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Product ID"
+// @Param product body models.Product true "Updated product"
+// @Success 200 {object} models.Product
+// @Router /api/products/{id} [put]
 func (c *ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
@@ -91,6 +123,14 @@ func (c *ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request
 	json.NewEncoder(w).Encode(updatedProduct)
 }
 
+// @Summary Delete a product by ID
+// @Description Delete a product by ID
+// @Tags products
+// @Accept  json
+// @Produce  json
+// @Param id path int true "Product ID"
+// @Success 204
+// @Router /api/products/{id} [delete]
 func (c *ProductController) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	id, err := strconv.Atoi(params["id"])
