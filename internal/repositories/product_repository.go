@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"myshop/models"
+	"myshop/internal/models"
 
 	"gorm.io/gorm"
 )
@@ -36,6 +36,14 @@ func (r *ProductRepository) FindAllWithFilters(category string, minPrice, maxPri
 	}
 	if maxPrice > 0 {
 		query = query.Where("price <= ?", maxPrice)
+	}
+
+	// Проверка на корректность параметров пагинации
+	if page < 1 {
+		page = 1
+	}
+	if pageSize < 1 {
+		pageSize = 10 // Значение по умолчанию
 	}
 
 	// Выполняем запрос с учетом параметров пагинации

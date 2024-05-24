@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"myshop/auth"
+	"myshop/internal/auth"
 	"net/http"
 	"strings"
 )

@@ -1,7 +1,7 @@
 package mocks
 
 import (
-	"myshop/models"
+	"myshop/internal/models"
 
 	"gorm.io/gorm"
 )

@@ -2,8 +2,8 @@ package config
 
 import (
 	"log"
-	"myshop/mocks"
-	"myshop/models"
+	"myshop/internal/mocks"
+	"myshop/internal/models"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"

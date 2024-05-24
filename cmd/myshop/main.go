@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 	"myshop/config"
-	"myshop/controllers"
-	"myshop/middleware"
-	"myshop/repositories"
-	"myshop/services"
+	"myshop/internal/controllers"
+	"myshop/internal/middleware"
+	"myshop/internal/repositories"
+	"myshop/internal/routes"
+	"myshop/internal/services"
 	"net/http"
 
 	_ "myshop/docs" // swagger files
@@ -33,14 +34,11 @@ import (
 
 func main() {
 	container := buildContainer()
+	startServer(container)
+}
+
+func startServer(container *dig.Container) {
 	err := container.Invoke(func(router *mux.Router) {
-
-		// Добавляем middleware для CORS
-		router.Use(middleware.Cors)
-
-		// Swagger route
-		router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
-
 		log.Println("Server is running on port 8080")
 		log.Fatal(http.ListenAndServe(":8080", router))
 	})
@@ -66,17 +64,19 @@ func buildContainer() *dig.Container {
 	container.Provide(func(p *controllers.ProductController, loginHandler http.HandlerFunc) *mux.Router {
 		router := mux.NewRouter()
 
+		// Добавляем middleware для CORS
+		router.Use(middleware.Cors)
+
+		// Swagger route
+		router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
+
 		// Публичные маршруты
-		router.HandleFunc("/login", loginHandler).Methods("POST")
+		routes.RegisterAuthRoutes(router, loginHandler)
 
 		// Защищенные маршруты
 		api := router.PathPrefix("/api").Subrouter()
 		api.Use(middleware.JwtAuthentication)
-		api.HandleFunc("/products", p.GetProducts).Methods("GET")
-		api.HandleFunc("/products/{id}", p.GetProduct).Methods("GET")
-		api.HandleFunc("/products", p.CreateProduct).Methods("POST")
-		api.HandleFunc("/products/{id}", p.UpdateProduct).Methods("PUT")
-		api.HandleFunc("/products/{id}", p.DeleteProduct).Methods("DELETE")
+		routes.RegisterProductRoutes(api, p)
 
 		return router
 	})

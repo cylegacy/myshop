@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
-	"myshop/auth"
+	"myshop/internal/auth"
 	"net/http"
 )
 

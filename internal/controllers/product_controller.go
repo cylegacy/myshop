@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"encoding/json"
-	"myshop/models"
-	"myshop/services"
+	"myshop/internal/models"
+	"myshop/internal/services"
 	"net/http"
 	"strconv"
 

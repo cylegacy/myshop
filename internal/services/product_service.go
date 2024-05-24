@@ -1,8 +1,8 @@
 package services
 
 import (
-	"myshop/models"
-	"myshop/repositories"
+	"myshop/internal/models"
+	"myshop/internal/repositories"
 )
 
 type ProductService struct {
